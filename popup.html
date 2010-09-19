@@ -1,0 +1,46 @@
+<style>
+body {
+  min-width:357px;
+  min-height:357px;
+  overflow-x:hidden;
+}
+
+div {
+	float: left;
+	margin: 5px;
+}
+
+</style>
+
+<script>
+
+var performance = window.performance || window.mozPerformance || window.msPerformance || window.webkitPerformance || {};
+var navigation = performance.navigation || {};
+var timing = performance.timing || {};
+
+function init() {
+	addNavigation();
+	addDNS();
+}
+	
+function addNavigation() {
+	var NAVIGATION_TYPE = ['Navigate', 'Reload', 'Back/Forward'];
+	var div = document.createElement("div");
+	div.innerHTML = "Navigation: " + NAVIGATION_TYPE[navigation.type];
+	document.body.appendChild(div);
+}
+
+function addDNS() {
+	var navigationDiv = document.createElement("div");
+	var div = document.createElement("div");
+	var dnstime = timing['domainLookupEnd'] - timing['domainLookupStart'];
+	div.innerHTML = "DNS Lookup: " + dnstime + " ms";
+	document.body.appendChild(div);
+}
+
+window.onload = function() { init(); }
+
+</script>
+
+<body>
+</body>

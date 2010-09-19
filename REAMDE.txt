@@ -1,0 +1,18 @@
+GOAL: to make an equivalent of firefox's lori plugin
+
+
+LORI displays:
+
+* TTFB: how long it took to see the first byte from remote server (from click to first byte received). This value gives a rough estimate on when the browser can start laying out the content.
+
+* TTC: how long it took to display the page (from click to complete drawing of the page)
+
+* Page size (number of bytes used to display the page): this value includes both bytes fetched from network and bytes fetched from the browser's cache.
+
+* Number of requests: number of requests used to fetch the page's content (images, style-sheet, javascript ....). Again, this value include both network requests and cache requests.
+
+
+
+
+
+ICON borrowed from: http://www.iconarchive.com/show/tulliana-2-icons-by-umut-pulat/k-timer-icon.html

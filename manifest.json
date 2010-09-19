@@ -1,0 +1,12 @@
+{
+  "name": "Page Load Time",
+  "version": "1.0",
+  "description": "The first extension that I made.",
+  "permissions": [
+    "tabs", "http://*/*"
+  ],
+  "browser_action": {
+	"default_icon": "icon.png",
+	"popup": "popup.html"
+  }
+}
