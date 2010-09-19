@@ -1,16 +1,25 @@
-<html>
-<head>
 <script>
-  // Called when the user clicks on the browser action.
-  chrome.browserAction.onClicked.addListener(function(tab) {
-    chrome.tabs.executeScript(null, {code:"alert('hi')"});
-  });
+// Array to hold callback functions
+   var callbacks = []; 
 
-  // var i = 0;
-  // window.setInterval(function() {
-  //   chrome.browserAction.setBadgeText({text:String(i)});
-  //   i++;
-  // }, 10);
+   // This function is called onload in the popup code
+   function getPerformance(callback) 
+   { 
+      // Add the callback to the queue
+      callbacks.push(callback); 
+
+      // Injects the content script into the current page 
+      chrome.tabs.executeScript(null, { file: "content_script.js" }); 
+   }; 
+
+   // Perform the callback when a request is received from the content script
+   chrome.extension.onRequest.addListener(function(request) 
+   { 
+      // Get the first callback in the callbacks array
+      // and remove it from the array
+      var callback = callbacks.shift();
+
+      // Call the callback function
+      callback(request); 
+   }); 
 </script>
-</head>
-</html>

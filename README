@@ -1,5 +1,12 @@
 GOAL: to make an equivalent of firefox's lori plugin
 
+Using webkitPerformance object, see:
+
+http://webtimingdemo.appspot.com/
+
+and
+
+http://dev.w3.org/2006/webapi/WebTiming/
 
 LORI displays:
 

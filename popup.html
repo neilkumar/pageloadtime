@@ -1,44 +1,46 @@
 <style>
 body {
-  min-width:357px;
-  min-height:357px;
-  overflow-x:hidden;
+   min-width:357px;
+   min-height:357px;
+   overflow-x:hidden;
 }
 
 div {
-	float: left;
-	margin: 5px;
+   float: left;
+   margin: 5px;
 }
 
 </style>
 
 <script>
 
-var performance = window.performance || window.mozPerformance || window.msPerformance || window.webkitPerformance || {};
-var navigation = performance.navigation || {};
-var timing = performance.timing || {};
-
-function init() {
-	addNavigation();
-	addDNS();
+function getPerformance(performance) {
+   //console.log(performance);
+   addNavigation(performance);
+   addTimingDelta(performance.timing, "DNS Lookup", "domainLookupStart", "domainLookupEnd");
+   addTimingDelta(performance.timing, "Connect", "connectStart", "connectEnd");
 }
 	
-function addNavigation() {
-	var NAVIGATION_TYPE = ['Navigate', 'Reload', 'Back/Forward'];
-	var div = document.createElement("div");
-	div.innerHTML = "Navigation: " + NAVIGATION_TYPE[navigation.type];
-	document.body.appendChild(div);
+function addNavigation(performance) {
+   var NAVIGATION_TYPE = ["Navigate", "Reload", "Back/Forward"];
+   var div = document.createElement("div");
+   div.innerHTML = "Navigation: " + NAVIGATION_TYPE[performance.navigation.type];
+   console.log("Navigation: " + NAVIGATION_TYPE[performance.navigation.type]);
+   document.body.appendChild(div);
 }
 
-function addDNS() {
-	var navigationDiv = document.createElement("div");
-	var div = document.createElement("div");
-	var dnstime = timing['domainLookupEnd'] - timing['domainLookupStart'];
-	div.innerHTML = "DNS Lookup: " + dnstime + " ms";
-	document.body.appendChild(div);
+function addTimingDelta(timing, name, start, end) {
+   var navigationDiv = document.createElement("div");
+   var div = document.createElement("div");
+   var delta = timing[end] - timing[start];
+   div.innerHTML = name + ": " + delta + " ms";
+   document.body.appendChild(div);
 }
 
-window.onload = function() { init(); }
+window.onload = function() { 
+   var bg = chrome.extension.getBackgroundPage();
+   bg.getPerformance(getPerformance);
+}
 
 </script>
 
