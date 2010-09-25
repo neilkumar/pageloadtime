@@ -1,5 +1,9 @@
-function getPerformance(performance) {
-   //console.log(performance);
+function drawPerformanceCB(performance_json) {
+   return drawPerformance(JSON.parse(performance_json));
+}
+
+function drawPerformance(performance) {   
+   // console.log(performance);
    addNavigation(performance);
    var timing = performance.timing;
    
@@ -42,9 +46,9 @@ function getPerformance(performance) {
 
 function getPercent(item, total)
 {
-   console.log(item);
-   console.log(total);
-   console.log(Math.round(100.0 * item / total));
+   // console.log(item);
+   // console.log(total);
+   // console.log(Math.round(100.0 * item / total));
    return Math.round(100.0 * item / total);
 }
 
@@ -84,6 +88,10 @@ function addTimingDelta(timing, name, start, end) {
 }
 
 window.onload = function() { 
-   var bg = chrome.extension.getBackgroundPage();
-   bg.getPerformance(getPerformance);
+   if (/^chrome-extension*/.test(window.location.href)) {
+      var bg = chrome.extension.getBackgroundPage();
+      bg.addCallback(drawPerformanceCB);
+   } else {
+      drawPerformance(window.webkitPerformance);
+   }
 }
