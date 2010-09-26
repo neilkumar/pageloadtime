@@ -4,6 +4,8 @@ function drawPerformanceCB(performance_json) {
 
 function drawPerformance(performance) {   
    // console.log(performance);
+   document.getElementById("debug").innerHTML = JSON.stringify(performance, null, "\n");
+   
    addNavigation(performance);
    var timing = performance.timing;
    
@@ -41,7 +43,10 @@ function drawPerformance(performance) {
 
    addTiming(timing, "Request", "requestStart", "requestEnd", totalTime);
    addTiming(timing, "Response", "responseStart", "responseEnd", totalTime);
-   addTiming(timing, "Load", "navigationStart", "loadEventEnd", totalTime);
+   addTiming(timing, "Total Request/Response", "requestStart", "responseEnd", totalTime);
+   addTiming(timing, "Load", "loadEventStart", "loadEventEnd", totalTime);
+   
+   addTiming(timing, "Total", "navigationStart", "loadEventEnd", totalTime);
 }
 
 function getPercent(item, total)
@@ -92,6 +97,9 @@ window.onload = function() {
       var bg = chrome.extension.getBackgroundPage();
       bg.addCallback(drawPerformanceCB);
    } else {
-      drawPerformance(window.webkitPerformance);
+      // in order to get a proper load
+      window.setTimeout( function() {
+         window.drawPerformance(window.webkitPerformance);
+      }, 0);
    }
 }
